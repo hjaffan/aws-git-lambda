@@ -2,5 +2,10 @@
 
 ## Usage
 
-This repository uses the serverless framework found (here)[https://serverless.com/]
+This repository uses the serverless framework found [here](https://serverless.com/)
+
+## Deployment
+
+1. Install aws cli
+1. Install sls cli
 
