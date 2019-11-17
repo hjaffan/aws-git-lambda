@@ -22,7 +22,6 @@ region: us-east-1
 # frameworkVersion: "=X.X.X"
 plugins:
   - serverless-python-requirements
-
 custom:
   pythonRequirements:
     dockerizePip: non-linux
