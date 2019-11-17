@@ -37,6 +37,13 @@ provider:
 functions:
   parse_webhook:
     handler: main.parse_webhook
+    environment:
+      GIT_REPO: "Please Populate"
+      FULL_NAME: "Please Populate"
+      GIT_EMAIL: "Please Populate"
+      GIT_USERNAME: "Please Populate"
+      GIT_PASSWORD: "Please Populate"
+      SKIP_SSL: true
     events:
       - http: 
           path: "ops/update-terraform-repo"
