@@ -1,7 +1,6 @@
 boto3==1.10.19
 botocore==1.13.19
 docutils==0.15.2
-futures==3.3.0
 jmespath==0.9.4
 lambda-git==0.1.1
 python-dateutil==2.8.0
