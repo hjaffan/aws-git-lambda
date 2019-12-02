@@ -42,3 +42,12 @@ variable "environment" {
   type        = "map"
   default     = {}
 }
+
+variable "myregion" {
+  description = "Region to create API Gateway"
+  default = "us-east-1"
+}
+
+variable "accountId" {
+  description = "Account ID"
+}

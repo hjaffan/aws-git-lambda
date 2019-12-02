@@ -1,3 +1,42 @@
+
+# API Gateway
+
+resource "aws_api_gateway_rest_api" "api" {
+  name = "myapi"
+}
+
+resource "aws_api_gateway_resource" "resource" {
+  path_part   = "resource"
+  parent_id   = "${aws_api_gateway_rest_api.api.root_resource_id}"
+  rest_api_id = "${aws_api_gateway_rest_api.api.id}"
+}
+
+resource "aws_api_gateway_method" "method" {
+  rest_api_id   = "${aws_api_gateway_rest_api.api.id}"
+  resource_id   = "${aws_api_gateway_resource.resource.id}"
+  http_method   = "GET"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "integration" {
+  rest_api_id             = "${aws_api_gateway_rest_api.api.id}"
+  resource_id             = "${aws_api_gateway_resource.resource.id}"
+  http_method             = "${aws_api_gateway_method.method.http_method}"
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = "${aws_lambda_function.lambda.invoke_arn}"
+}
+
+# Lambda
+resource "aws_lambda_permission" "apigw_lambda" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.lambda.function_name}"
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = "arn:aws:execute-api:${var.myregion}:${var.accountId}:${aws_api_gateway_rest_api.api.id}/*/${aws_api_gateway_method.method.http_method}${aws_api_gateway_resource.resource.path}"
+}
+
 resource "random_string" "name" {
   length  = 4
   special = false
@@ -23,9 +62,24 @@ data "aws_iam_policy_document" "policy" {
   }
 }
 
-resource "aws_iam_role" "iam_for_lambda" {
-  name               = "iam_for_lambda"
-  assume_role_policy = "${data.aws_iam_policy_document.policy.json}"
+resource "aws_iam_role" "role" {
+  name = "myrole"
+
+  assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+POLICY
 }
 
 resource "null_resource" "install_python_dependencies" {
@@ -59,7 +113,7 @@ resource "aws_lambda_function" "lambda" {
   filename         = "${var.output_path}"
   description      = "${var.description}"
   source_code_hash = "${data.archive_file.lambda_zip.output_base64sha256}"
-  role    = "${aws_iam_role.iam_for_lambda.arn}"
+  role    = "${aws_iam_role.role.arn}"
   function_name    = "${var.function_name}"
   handler          = "${var.handler_name}"
   runtime          = "${var.runtime}"
