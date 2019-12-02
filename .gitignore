@@ -19,3 +19,7 @@ var/
 
 # Serverless directories
 .serverless
+#ignore lambda_pkg dir
+lambda_pkg_7hks/
+#ignore lambda_pkg dir
+lambda_pkg_zxqs/
