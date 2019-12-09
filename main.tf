@@ -119,7 +119,15 @@ resource "aws_lambda_function" "lambda" {
   runtime          = var.runtime
   timeout          = var.timeout
   memory_size      = var.memory_size
-  # environment {
-  #   variables = [slice( list(var.environment), 0, length(var.environment) == 0 ? 0 : 1 )}"]
-  # }
+  environment {
+    variables = [
+      GIT_REPO = var.git_repo,
+      FULL_NAME = var.full_name,
+      GIT_EMAIL = var.git_email,
+      GIT_USERNAME = var.git_username,
+      GIT_PASSWORD = var.git_password,
+      SKIP_SSL = var.skip_ssl
+
+    ]
+  }
 }

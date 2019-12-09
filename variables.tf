@@ -51,3 +51,28 @@ variable "myregion" {
 variable "accountId" {
   description = "Account ID"
 }
+
+variable "git_repo" {
+  description = "HTTPS Git Repo URL"
+}
+
+variable "full_name" {
+  description = "Full name for commiter config"
+}
+
+variable "git_email" {
+  description = "E-mail address for git commiter"
+}
+
+variable "git_username" {
+    description = "Username to commit to repo. User must have access"
+}
+
+variable "git_password" {
+  description = "Password for the username"
+}
+
+variable "skip_ssl" {
+  description = "Skip SSL validation to remote host. Keep true if signed by internal CA"
+  default = true
+}
