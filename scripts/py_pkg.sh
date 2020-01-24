@@ -10,7 +10,7 @@ virtualenv -p $runtime env-$function_name
 source env-$function_name/bin/activate
 
 #installing python dependencies
-FILE=$source_code_path/requirements.txt
+FILE=$path_module/source/requirements.txt
 if [ -f $FILE ]; then
   echo "requirement.txt file exists in source_code_path. Installing dependencies.."
   pip install -q -r $FILE --upgrade
@@ -21,7 +21,9 @@ fi
 deactivate
 #creating deployment package
 cp -r $path_module/env-$function_name/lib/$runtime/site-packages/* $path_cwd/$dir_name
-cp -r $path_module/source $path_cwd/$dir_name
+echo "[[ COPYING: cp -r ${path_module}/env-${function_name}/lib/${runtime}/site-packages/* ${path_cwd}/${dir_name} ]]"
+cp -r $path_module/source/* $path_cwd/$dir_name
+echo "[[ COPYING: cp -r ${path_module}/source ${path_cwd}/${dir_name} ]]"
 #removing virtual env folder
 rm -rf $path_module/env-$function_name/
 #add lambda_pkg directory to .gitignore
