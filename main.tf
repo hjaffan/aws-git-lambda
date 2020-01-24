@@ -84,7 +84,7 @@ POLICY
 
 resource "null_resource" "install_python_dependencies" {
   triggers = {
-    requirements = "${sha1(file("${var.source_code_path}/requirements.txt"))}"
+    requirements = "${sha1(file("source/requirements.txt"))}"
     dir_hash     = "${data.archive_file.dir_hash_zip.output_base64sha256}"
   }
 
