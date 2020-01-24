@@ -18,3 +18,15 @@ It works on creating a lambda function and setting a trigger to it with an API G
 ## How to trigger
 
 The API Gateway that gets generated is called myapi
+
+example payload
+```json
+{
+    "snowRequestId":"some-id",
+    "environment":"stag",
+    "cpuCount":"2",
+    "memoryGB":"5"
+}
+```
+
+curl -X POST https://api-gateway-way-enpoint/ops/update-terraform-repo --data '{"snowRequestId":"some-id","environment":"stag","cpuCount":"2","memoryGB":"5"}'
