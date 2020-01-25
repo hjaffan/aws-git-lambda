@@ -13,5 +13,4 @@ def CreateTFVarsFile(variables):
 def AppendTFVarsFile(variables):
     with open("{}/repo/variables.tfvars".format(new_repo_path),"a+") as file:
         for key, value in variables.items():
-            file.write("\"{}\" = \"{}\" \n".format(key, value))ls
-            
+            file.write("\"{}\" = \"{}\" \n".format(key, value))
